@@ -1,3 +1,8 @@
+#game-button {
+    position: absolute;
+    display: block;
+}
+
 .abs {
     position: absolute;
 }
