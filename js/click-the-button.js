@@ -3,18 +3,33 @@ var timer = new Stopwatch(timerWrapper)
 
 var startButton = document.getElementById("start-button");
 var gameButton = document.getElementById("game-button");
+var clickDisplay = document.getElementById("click-number");
 
 function sleep(s) {
     return new Promise(resolve => setTimeout(resolve, s * 1000));
 }
 
-function timerUpdate() {
-    var timerDisplay = document.getElementById("timer")
-    timerDisplay.textContent = 0.0
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 
-    var t = 0
-
-    timerDisplay.textContent = t + 0.01
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
 }
 
 function stop() {
@@ -22,11 +37,20 @@ function stop() {
 
     gameButton.disabled = true;
     startButton.disabled = false;
+
+    console.log(getCookie("bestTime"))
+
+    if (getCookie("bestTime") == "" || getCookie("bestTime") == "undefined") {
+        setCookie("bestTime", timer.textContent, 365)
+    } else if (parseInt(getCookie("bestTime")) > parseInt(timer.textContent)) {
+        // new personal best
+        window.alert("New Personal Best! Previous best: " + getCookie("bestTime"))
+        setCookie("bestTime", timer.textContent, 365)
+    }
 }
 
 function processButtonClick() {
-    var gameButton = document.getElementById("game-button");
-    var clickDisplay = document.getElementById("click-number");
+    
     var prevClicks = parseInt(clickDisplay.textContent)
 
     clickDisplay.textContent = prevClicks + 1
@@ -56,6 +80,6 @@ function start() {
 
     gameButton.addEventListener("click", processButtonClick)
 
-    
-    timer.start()
+    timer.reset();
+    timer.start();
 }
