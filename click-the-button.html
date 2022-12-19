@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="/styles.css">
     <title>Click the Button - Speedrun Games</title>
 </head>
 <body>
-    <button onclick="start()">Start</button>
-    <button id="game-button", class="abs bl">Hi</button>
+    <p id="click-number-wrapper"><span id="click-number">0</span> clicks</p>
+    
+    <button onclick="start()" id="start-button">Start</button>
+    <div id="timer" class="stopwatch ma"></div>
+    
+    <button id="game-button", class="abs bl ma">Hi</button>
 
     <noscript>JavaScript must be enabled to run this game.</noscript>
+
+    <script src="/js/timer.js"></script>
     <script src="/js/click-the-button.js"></script>
 </body>
 </html>
